@@ -4,10 +4,7 @@ const Big = require('big.js');
 const ConfigParser = require('configparser');
 const colors = require('colors');
 const Table = require('cli-table2');
-
-// import forex from 'helpers';
 const forex = require('./helpers').forex;
-// function forex() {}
 
 const TableConfigChars = { 'top': '' , 'top-mid': '' , 'top-left': '' , 'top-right': ''
 , 'bottom': '' , 'bottom-mid': '' , 'bottom-left': '' , 'bottom-right': ''
@@ -73,11 +70,10 @@ const table = new Table({
 });
 
 // console.clear();
-
 // console.log(dayDurations, `, or a total of ${dayDurations.length} days`);
 console.log(`Total of ${dayDurations.length} days`);
 
-let totalDurations = dayDurations.slice(1)
+let totalDayDurations = dayDurations.slice(1)
     .reduce((prev, cur) => moment.duration(cur).add(prev), moment.duration(dayDurations[0]));
 
 let totalLabelDurations = {};
@@ -88,16 +84,20 @@ Object.keys(labeledDurations).map(label => {
         )
 });
 
-let totalDailyHours = totalDurations.asHours();
+let totalDailyHours = totalDayDurations.asHours();
 let salaryPortion = parseFloat(`${totalDailyHours * defaultHourlyFee}`);
 
-console.log(`Daily hours summary: ${totalDailyHours}`);
+console.log(`Daily hours summary: ${totalDailyHours.toFixed(2)}`);
+// console.log(colors.grey(`Salary portion (${localCurrency})`) + `: ${salaryPortion.toFixed(2)}`);
+console.log(colors.green(`Salary portion (${feeCurrency})` + `: ${salaryPortion.toFixed(2)}`));
 
+let totalHourlyHours = new Big(0);
 let hourlyPortion = new Big(0);
 Object.keys(labeledDurations).map(label => {
     if (totalLabelDurations[label].asHours() > 0) {
         // console.log(totalLabelDurations[label].asMinutes());
         let totalLabelHours = totalLabelDurations[label].asHours();
+        totalHourlyHours = totalHourlyHours.add(totalLabelHours);
         let labelDue = new Big(totalLabelHours).times(fees[label]);
         hourlyPortion = hourlyPortion.add(labelDue);
         table.push([ `[${label}]`, totalLabelHours, `${fees[label]}`, labelDue.toFixed(2) ]);        
@@ -110,8 +110,6 @@ console.log('----------');
 
 // console.log(`Default hourly fee (${CURR}): ${hourlyFee.toFixed(2)}`);
 
-// console.log(colors.grey(`Salary portion (${localCurrency})`) + `: ${salaryPortion.toFixed(2)}`);
-console.log(colors.grey(`Salary portion (${feeCurrency})`) + `: ${salaryPortion.toFixed(2)}`);
-
+console.log(`Hourly summary: ${totalHourlyHours.toFixed(2)}`);
 // console.log(colors.green(`Hourly portion (${localCurrency})`) + `: ${hourlyPortion.toFixed(2)}`);
 console.log(colors.green(`Hourly portion (${feeCurrency})`) + `: ${hourlyPortion.toFixed(2)}`);
