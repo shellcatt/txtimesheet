@@ -53,6 +53,18 @@ npm install txtimesheet
 ```
 Also searches for `txtimesheet.ini` in local folder (`$CWD`)  
 
+## Run
+
+```
+npm start 
+```
+or 
+```
+npm start -- timesheet.txt
+```
+NOTE: You can use the `timesheet.txt` for logs, or delete it and symlink an existing one to the local folder. 
+
+
 ---
 ## TODO
 * V1
