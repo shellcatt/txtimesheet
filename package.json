@@ -1,0 +1,32 @@
+{
+  "name": "txtimesheet",
+  "version": "0.0.5",
+  "description": "Textual time logs summary",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shellcatt/txtimesheet.git"
+  },
+  "keywords": [
+    "timesheet",
+    "txt"
+  ],
+  "author": "Shellcatt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shellcatt/txtimesheet/issues"
+  },
+  "homepage": "https://github.com/shellcatt/txtimesheet#readme",
+  "dependencies": {
+    "big.js": "^6.1.1",
+    "chalk": "^5.0.0",
+    "cli-table2": "^0.2.0",
+    "colors": "^1.4.0",
+    "configparser": "^0.3.9",
+    "moment": "^2.29.1"
+  }
+}
